@@ -1,9 +1,33 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>weeks</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Gerência Money - Semanas</ion-title>
+      </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <div class="ion-padding">
+    <ion-searchbar></ion-searchbar>
+    <ion-card *ngFor="let week of reverseWeeks">
+    <ion-card-header>
+      <ion-card-subtitle>Movimentação Financeira</ion-card-subtitle>
+      <ion-card-title class="margin-top-menos-5px">
+        <ion-datetime id="data-week-selection-{{week.name}}" [(ngModel)]="week.name" displayFormat="MM/DD" pickerFormat="MM/DD" style="width: 35%;" doneText="Ok" cancelText="Cancelar" 
+        weekNames="Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro">
+        </ion-datetime>
+        <ion-input [(ngModel)]="week.value" placeholder="0.00" type="number" style="margin-left: 16px;" class="margin-top-menos-6px">R$ </ion-input>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="margin-top-menos-10px">
+        <ion-input [(ngModel)]="week.description" placeholder="Escreva sua descrição aqui" type="text"></ion-input>
+    </ion-card-content>
+    </ion-card>
+    </div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="addWeek(newWeek)">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-content>

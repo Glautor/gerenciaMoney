@@ -15,20 +15,17 @@ export class YearsPage implements OnInit {
   constructor(public navCtrl: NavController, private router: Router){
   }
   pushPage(page, param){
-    this.router.navigate([`/${page}`, param]);
+    if(document.getElementById("data-year-selection-") == null){
+      this.router.navigate([`/${page}`, param]);
+    }
   }
   ngOnInit() {
   }
 
-  teste = "";
   newYear = {};
-  newMonth = {};
-  newWeek = {};
   myDate: String = new Date().toISOString();
   years = [{ name: this.myDate, description: "coloque uma bela descrição aqui" }];
   reverseYears = this.years;
-  months = [{ name:'Janeiro', value:1},
-           { name:'Fevereiro', value:2}];
 
   addYear = function(newYear){
     newYear = {name: "", description: ""};
@@ -36,31 +33,31 @@ export class YearsPage implements OnInit {
     this.reverseYears = this.years.slice().reverse();
     this.newYear = {};
     var sizeYears = this.reverseYears.length;
+
     var tid = setInterval(function(){
       clickById();
     },400);
 
     function clickById(){
-      for(var i = 0; i < sizeYears; i++){
-        if(document.getElementsByTagName("ion-datetime")[i] != null){
-          if(document.getElementsByTagName("ion-datetime")[i].getAttribute("id") != "data-selection-"){
-            document.getElementsByTagName("ion-datetime")[i].disabled = true;
-          } else {
-            document.getElementsByTagName("ion-datetime")[i].click();
+      if(document.getElementsByTagName("ion-datetime")[0] != null){
+        if(document.getElementById("data-year-selection-") != null){
+          document.getElementsByTagName("ion-datetime")[0].disabled = false;
+          document.getElementById("data-year-selection-").click();
+          return;
+        }
+        if(document.getElementById("data-year-selection-") == null){
+          clearInterval(tid);
+          ableAll();
+        }
+      }
+      function ableAll(){
+        for(var i = 0; i < sizeYears; i++){
+          if(document.getElementsByTagName("ion-datetime")[i] != undefined){
+            document.getElementsByTagName("ion-datetime")[i].disabled = false;
+            document.getElementsByTagName("ion-button")[i].disabled = false;
           }
         }
       }
-      ableAll();
-      function ableAll(){
-        for(var i = 0; i < sizeYears; i++){
-          document.getElementsByTagName("ion-datetime")[i].disabled = false;
-        }
-      }
     }
-  };
-
-  adicionarMes = function(novoMes){
-    this.months.push(novoMes);
-    this.novoMes = {};
   };
 }
